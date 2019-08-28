@@ -22,7 +22,7 @@ NC='\033[0m'
 ### Welcome
 clear
 echo -e "${WHITE}============================================"
-echo -e "SafeNode Setup Tool ${PINK}v0.15.2${NC}"
+echo -e "SafeNode Setup Tool ${PINK}v0.16${NC}"
 echo -e "${WHITE}Special thanks to:${NC}"
 echo -e "${CYAN}@Team Safe"
 echo -e "@Safers"
@@ -260,14 +260,16 @@ read -p "Y/n: " -n 1 -r
 
         ### Remove old service file >= 0.14.1
         if [ -f /lib/systemd/system/safecoinnode.service ]; then
-        sudo systemctl disable --now safecoinnode.service &>/dev/null
-        sudo rm /lib/systemd/system/safecoinnode.service &>/dev/null
+            echo -e "Removing old service file..."
+            sudo systemctl disable --now safecoinnode.service &>/dev/null
+            sudo rm /lib/systemd/system/safecoinnode.service &>/dev/null
         fi
 
         ### Remove old service file
         if [ -f /lib/systemd/system/safecoinnode-$USER.service ]; then
-        sudo systemctl disable --now safecoinnode-$USER.service
-        sudo rm /lib/systemd/system/safecoinnode-$USER.service
+            echo -e "Removing old service file..."
+            sudo systemctl disable --now safecoinnode-$USER.service
+            sudo rm /lib/systemd/system/safecoinnode-$USER.service
         fi
 
         service="echo '[Unit]
@@ -292,12 +294,26 @@ read -p "Y/n: " -n 1 -r
         sudo systemctl enable safecoinnode-$USER.service
         sudo systemctl start safecoinnode-$USER
     else
-        echo -e "No service was created... ${CYAN}Starting daemon...${NC}"
+        ### Remove old service file >= 0.14.1
+        if [ -f /lib/systemd/system/safecoinnode.service ]; then
+            echo -e "Removing old service file..."
+            sudo systemctl disable --now safecoinnode.service &>/dev/null
+            sudo rm /lib/systemd/system/safecoinnode.service &>/dev/null
+        fi
+
+        ### Remove old service file
+        if [ -f /lib/systemd/system/safecoinnode-$USER.service ]; then
+            echo -e "Removing old service file..."
+            sudo systemctl disable --now safecoinnode-$USER.service
+            sudo rm /lib/systemd/system/safecoinnode-$USER.service
+        fi
+
+        echo -e "${WHITE}No service was created...${NC} ${CYAN}Starting daemon...${NC}"
         ~/safecoind -daemon
     fi
 
-echo -e "${CYAN}Safecoind started...${NC} Waiting for startup to finish"
-sleep 60
+echo -e "${CYAN}Safecoind started...${NC} Waiting 2 minutes for startup to finish"
+sleep 120
 newHighestBlock="$(wget -nv -qO - https://explorer.safecoin.org/api/blocks\?limit=1 | jq .blocks[0].height)"
 currentBlock="$(~/safecoin-cli getblockcount)"
 
@@ -347,13 +363,23 @@ echo -e "${CYAN}SafePass:${NC} ${PINK}$GENPASS${NC}"
 echo -e "${CYAN}SafeHeight:${NC} ${PINK}$HIGHESTBLOCK${NC}"
 echo
 echo -e "${WHITE}##################################################${NC}"
-echo -e "${GREEN}Send ${CYAN}1${NC}${GREEN} SAFE to the address below. This will power the SafeNode for 1 year!${NC}"
-### Generate address to fuel safenode
-echo -e "${PINK}"
-~/safecoin-cli getnewaddress
-echo -e "${NC}${WHITE}"
 echo
-echo -e "You can view your SafeNode rewards online at ${PINK}https://safenodes.org/address/$(~/safecoin-cli getnodeinfo | jq -r .SAFE_address)${NC}${WHITE}"
+
+### Check balance
+BALANCE=$(~/safecoin-cli z_gettotalbalance | jq -r .total)
+if [[ "0.2" > $BALANCE ]]; then
+    echo -e "${GREEN}Send ${CYAN}1${NC}${GREEN} SAFE to the address below. This will power the SafeNode for 1 year!${NC}"
+    ### Generate address to fuel safenode
+    echo -e "${PINK}"
+    ~/safecoin-cli getnewaddress
+    echo -e "${NC}${WHITE}"
+else
+    echo -e "${CYAN}Current SafeNode balance:${NC} ${PINK}$BALANCE SAFE${NC}"
+fi
+
+echo
+echo -e "${WHITE}You can view your SafeNode rewards online at ${PINK}https://safenodes.org/address/$(~/safecoin-cli getnodeinfo | jq -r .SAFE_address)${NC}${WHITE}"
+echo
 echo -e "##################################################"
 echo
 echo -e "A message of "${PINK}Validate SafeNode${NC}" ${WHITE}will appear when your SafeNode Is activated. This will happen roughly 10 blocks after the safeheight above."
