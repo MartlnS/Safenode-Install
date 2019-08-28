@@ -22,7 +22,7 @@ NC='\033[0m'
 ### Welcome
 clear
 echo -e "${WHITE}============================================"
-echo -e "SafeNode Setup Tool ${PINK}v0.15.1${NC}"
+echo -e "SafeNode Setup Tool ${PINK}v0.15.2${NC}"
 echo -e "${WHITE}Special thanks to:${NC}"
 echo -e "${CYAN}@Team Safe"
 echo -e "@Safers"
@@ -112,7 +112,7 @@ sudo systemctl stop safecoinnode &>/dev/null
 ### Backup wallet.dat
 if [ -f .safecoin/wallet.dat ]; then
     echo -e "Backing up wallet.dat"
-    if [ ! -d safenode-backup ]
+    if [ ! -d safenode-backup ]; then
         mkdir safenode-backup
     fi
     cp ~/.safecoin/wallet.dat ~/safenode-backup/wallet$(date "+%Y.%m.%d-%H.%M.%S").dat
@@ -352,6 +352,8 @@ echo -e "${GREEN}Send ${CYAN}1${NC}${GREEN} SAFE to the address below. This will
 echo -e "${PINK}"
 ~/safecoin-cli getnewaddress
 echo -e "${NC}${WHITE}"
+echo
+echo -e "You can view your SafeNode rewards online at ${PINK}https://safenodes.org/address/$(~/safecoin-cli getnodeinfo | jq -r .SAFE_address)${NC}${WHITE}"
 echo -e "##################################################"
 echo
 echo -e "A message of "${PINK}Validate SafeNode${NC}" ${WHITE}will appear when your SafeNode Is activated. This will happen roughly 10 blocks after the safeheight above."
@@ -366,11 +368,11 @@ then
     echo -e "##################################################"
     echo
     echo -e "${WHITE}Fetching ${PINK}getnodeinfo${NC}${WHITE}"
-    ~/safecoin-cli getnodeinfo
+    ~/safecoin-cli getnodeinfo | jq
     echo -e "${NC}"
 else
     echo -e "${WHITE}No service was created... returning ${PINK}getnodeinfo${NC}${WHITE}"
-    ~/safecoin-cli getnodeinfo
+    ~/safecoin-cli getnodeinfo | jq
     echo -e "${NC}"
 fi
 
