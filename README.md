@@ -25,7 +25,7 @@ su - username
 
 ## Run the script and enter your SafeKey when prompted
 ```
-bash -c "$(wget -qO - https://raw.githubusercontent.com/zzzpotato/Safenode-Install/master/install-safenode.sh)"
+bash -c "$(wget -qO - https://raw.githubusercontent.com/Fair-Exchange/Safenode-Install/master/install-safenode.sh)"
 ```
 
 # FAQ
