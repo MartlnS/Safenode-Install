@@ -22,7 +22,7 @@ NC='\033[0m'
 ### Welcome
 clear
 echo -e "${WHITE}============================================"
-echo -e "SafeNode Setup Tool ${PINK}v0.15${NC}"
+echo -e "SafeNode Setup Tool ${PINK}v0.15.1${NC}"
 echo -e "${WHITE}Special thanks to:${NC}"
 echo -e "${CYAN}@Team Safe"
 echo -e "@Safers"
@@ -108,6 +108,15 @@ sudo systemctl stop safecoinnode-$USER
 killall -9 safecoind
 ### Stop old service file >= 0.14.1
 sudo systemctl stop safecoinnode &>/dev/null
+
+### Backup wallet.dat
+if [ -f .safecoin/wallet.dat ]; then
+    echo -e "Backing up wallet.dat"
+    if [ ! -d safenode-backup ]
+        mkdir safenode-backup
+    fi
+    cp ~/.safecoin/wallet.dat ~/safenode-backup/wallet$(date "+%Y.%m.%d-%H.%M.%S").dat
+fi
 
 ### Prereq
 echo -e "Setting up prerequisites and updating the server..."
