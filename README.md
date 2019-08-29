@@ -45,7 +45,10 @@ bash -c "$(wget -qO - https://raw.githubusercontent.com/Fair-Exchange/Safenode-I
 - `~/safecoind -daemon` - Start daemon
 - `~/safecoin-cli stop` - Stop Daemon
 
-5. Where can I find the steps to manually install my SafeNode?
+5. Do I send the 1 SAFE to power my node from my collateral address?
+- No, send this SAFE from another wallet address.
+
+6. Where can I find the steps to manually install my SafeNode?
 - https://docs.google.com/document/d/1MuZnt-9jKhSrnO75bigtXYg_d99aOn5qfN4nnqdqXbY/
 
 ## Thanks
