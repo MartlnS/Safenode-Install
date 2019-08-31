@@ -22,7 +22,7 @@ NC='\033[0m'
 ### Welcome
 clear
 echo -e "${WHITE}============================================"
-echo -e "SafeNode Setup Tool ${PINK}v0.16${NC}"
+echo -e "SafeNode Setup Tool ${PINK}v0.16.1${NC}"
 echo -e "${WHITE}Special thanks to:${NC}"
 echo -e "${CYAN}@Team Safe"
 echo -e "@Safers"
@@ -235,11 +235,12 @@ if [ ! -f $confFile ]; then
     echo "port=8770" >> $confFile
     echo "server=1" >> $confFile
     echo "txindex=1" >> $confFile
+    echo "timestampindex=1" >> $confFile
+    echo "addressindex=1" >> $confFile
+    echo "spentindex=1" >> $confFile
     echo "daemon=1" >> $confFile
     echo "parentkey=0333b9796526ef8de88712a649d618689a1de1ed1adf9fb5ec415f31e560b1f9a3" >> $confFile
-    if echo $safeKey; then
-        echo "safekey=$safeKey" >> $confFile
-    fi
+    echo "safekey=$safeKey" >> $confFile
     echo "safepass=$GENPASS" >> $confFile
     echo "safeheight=$HIGHESTBLOCK" >> $confFile
 else 
