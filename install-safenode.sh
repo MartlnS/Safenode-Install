@@ -3,6 +3,11 @@
 ### Change to home dir (just in case)
 cd ~
 
+### Prereq
+echo -e "Setting up prerequisites and updating the server..."
+sudo apt-get update -y
+sudo apt-get install build-essential pkg-config libc6-dev m4 g++-multilib autoconf libtool ncurses-dev unzip git python python-zmq zlib1g-dev wget libcurl4-gnutls-dev bsdmainutils automake curl bc dc jq nano gpw -y
+
 ### Setup Vars
 GENPASS="$(date +%s | sha256sum | base64 | head -c 32 ; echo)"
 confFile=~/.safecoin/safecoin.conf
@@ -117,11 +122,6 @@ if [ -f .safecoin/wallet.dat ]; then
     fi
     cp ~/.safecoin/wallet.dat ~/safenode-backup/wallet$(date "+%Y.%m.%d-%H.%M.%S").dat
 fi
-
-### Prereq
-echo -e "Setting up prerequisites and updating the server..."
-sudo apt-get update -y
-sudo apt-get install build-essential pkg-config libc6-dev m4 g++-multilib autoconf libtool ncurses-dev unzip git python python-zmq zlib1g-dev wget libcurl4-gnutls-dev bsdmainutils automake curl bc dc jq nano gpw -y
 
 ### Fetch Params
 echo -e "Fetching Zcash-params..."
