@@ -27,12 +27,13 @@ NC='\033[0m'
 ### Welcome
 clear
 echo -e "${WHITE}============================================"
-echo -e "SafeNode Setup Tool ${PINK}v0.16.2${NC}"
+echo -e "SafeNode Setup Tool ${PINK}v0.16.3${NC}"
 echo -e "${WHITE}Special thanks to:${NC}"
 echo -e "${CYAN}@Team Safe"
 echo -e "@Safers"
 echo -e "Miodrag"
 echo -e "Oleksandr"
+echo -e "Eternity"
 echo -e "Potato${NC}"
 echo -e "${WHITE}============================================${NC}"
 
@@ -266,11 +267,18 @@ read -p "Y/n: " -n 1 -r
             sudo rm /lib/systemd/system/safecoinnode.service &>/dev/null
         fi
 
-        ### Remove old service file
+        ### Remove old service file >= v0.16.2
         if [ -f /lib/systemd/system/safecoinnode-$USER.service ]; then
             echo -e "Removing old service file..."
+            sudo systemctl disable --now safecoinnode-$USER.service &>/dev/null
+            sudo rm /lib/systemd/system/safecoinnode-$USER.service &>/dev/null
+        fi
+
+        ### Remove old service file
+        if [ -f /etc/systemd/system/safecoinnode-$USER.service ]; then
+            echo -e "Removing old service file..."
             sudo systemctl disable --now safecoinnode-$USER.service
-            sudo rm /lib/systemd/system/safecoinnode-$USER.service
+            sudo rm /etc/systemd/system/safecoinnode-$USER.service
         fi
 
         service="echo '[Unit]
@@ -286,7 +294,7 @@ read -p "Y/n: " -n 1 -r
         ExecStart=$HOME/safecoind -daemon
         ProtectSystem=full
         [Install]
-        WantedBy=multi-user.target' >> /lib/systemd/system/safecoinnode-$USER.service"
+        WantedBy=multi-user.target' >> /etc/systemd/system/safecoinnode-$USER.service"
 
         #echo $service
         sudo sh -c "$service"
@@ -302,11 +310,18 @@ read -p "Y/n: " -n 1 -r
             sudo rm /lib/systemd/system/safecoinnode.service &>/dev/null
         fi
 
-        ### Remove old service file
+        ### Remove old service file >= v0.16.2
         if [ -f /lib/systemd/system/safecoinnode-$USER.service ]; then
             echo -e "Removing old service file..."
+            sudo systemctl disable --now safecoinnode-$USER.service &>/dev/null
+            sudo rm /lib/systemd/system/safecoinnode-$USER.service &>/dev/null
+        fi
+
+        ### Remove old service file
+        if [ -f /etc/systemd/system/safecoinnode-$USER.service ]; then
+            echo -e "Removing old service file..."
             sudo systemctl disable --now safecoinnode-$USER.service
-            sudo rm /lib/systemd/system/safecoinnode-$USER.service
+            sudo rm /etc/systemd/system/safecoinnode-$USER.service
         fi
 
         echo -e "${WHITE}No service was created...${NC} ${CYAN}Starting daemon...${NC}"
