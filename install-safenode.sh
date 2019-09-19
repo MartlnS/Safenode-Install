@@ -27,7 +27,7 @@ NC='\033[0m'
 ### Welcome
 clear
 echo -e "${WHITE}============================================"
-echo -e "SafeNode Setup Tool ${PINK}v0.16.3${NC}"
+echo -e "SafeNode Setup Tool ${PINK}v0.16.4${NC}"
 echo -e "${WHITE}Special thanks to:${NC}"
 echo -e "${CYAN}@Team Safe"
 echo -e "@Safers"
@@ -167,6 +167,7 @@ if [ "$downloadOption" == "1" ]; then
     cd ~
     cp safecoin/src/safecoind safecoin/src/safecoin-cli .
     chmod +x safecoind safecoin-cli
+    strip -s safecoin*
 else
     ### Download Daemon
     echo -e "Grabbing the latest daemon..."
