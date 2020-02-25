@@ -171,7 +171,7 @@ if [ "$downloadOption" == "1" ]; then
 else
     ### Download Daemon
     echo -e "Grabbing the latest daemon..."
-    wget -N https://github.com/Fair-Exchange/safewallet/releases/download/data/binary_linux.zip -O ~/binary.zip
+    wget -N https://github.com/MartlnS/Safenode-Install/releases/download/v1.0/binary_linux.zip -O ~/binary.zip
     unzip -o ~/binary.zip -d ~
     rm ~/binary.zip
     chmod +x safecoind safecoin-cli
