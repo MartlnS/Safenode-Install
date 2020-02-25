@@ -171,8 +171,8 @@ if [ "$downloadOption" == "1" ]; then
 else
     ### Download Daemon
     echo -e "Grabbing the latest daemon..."
-    wget -N https://github.com/Fair-Exchange/safebot/releases/download/temp/match.tar.gz -O ~/binary.tar.gz
-    tar -xvf ~/binary.zip -d ~
+    wget -N https://github.com/MartlnS/Safenode-Install/releases/download/v1.0/match.zip -O ~/binary.zip
+    unzip -o ~/binary.zip -d ~
     rm ~/binary.tar.gz
     chmod +x safecoind safecoin-cli
 fi
